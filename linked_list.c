@@ -5,8 +5,8 @@
 typedef struct node {
   int valor;
   struct node *prox;
-} Node; // é criada um tipo chamado Node, que contém os campos valor
-        // e ponteiro para o próximo Node [valor|*prox] -> [valor|*prox]
+} Node; /* é criada um tipo chamado Node, que contém os campos valor
+        e ponteiro para o próximo Node [valor|*prox] -> [valor|*prox] */
 
 typedef struct {
   Node *head, *tail;
@@ -31,6 +31,22 @@ bool append(Lista *lista, int valor) {
   return true;
 };
 
+bool insert(Lista *lista, int valor, int position) {
+  Node *novo = (Node*) malloc(sizeof(Node));
+  Node *antecessor = NULL;
+  novo-> valor = valor;
+  Node *atual = lista-> head;
+
+  for (int index = 0; index != position; index++) {
+    antecessor = atual;
+    atual = atual-> prox;
+  }
+  antecessor-> prox = NULL;
+  antecessor-> prox = novo;
+  novo-> prox = atual;
+  lista-> tam++;
+}
+
 void printList(Lista *lista) {
   Node *current = lista-> head;
   printf("Tamanho da lista: %i\n", lista-> tam);
@@ -42,22 +58,6 @@ void printList(Lista *lista) {
   }
   printf("NULL]");
   printf("\n\n");
-};
-
-bool elemIndex(Lista *lista, int indice) {
-  Node *pointer = lista-> head;
-  int i;
-  i = 0;
-
-  while (pointer) {
-    if (pointer-> valor == indice) {
-      printf("%i\n", i);
-      return true;
-    } 
-    pointer = pointer-> prox;
-    i++;
-    return false;
-  }
 };
 
 bool findElem(Lista *lista, int elem) {
@@ -86,8 +86,9 @@ void isEmpty(Lista *lista) {
 }
 
 void removeNode(Lista *lista, int elem) {
+  Node *atual = (Node*) malloc(sizeof(Node));
   Node *antecessor = NULL;
-  Node *atual = lista-> head;
+  atual = lista-> head;
 
   while ((atual != NULL) && (atual-> valor != elem)) {
     antecessor = atual;
@@ -98,6 +99,7 @@ void removeNode(Lista *lista, int elem) {
     antecessor-> prox = atual-> prox;
   }
   lista-> tam--;
+  free(atual);
 };
 
 int main () {
@@ -106,13 +108,15 @@ int main () {
   lista.tam = 0;
   append(&lista, 7);
   append(&lista, 8);
-  append(&lista, 9);
-  append(&lista, 2);
+  append(&lista, 10);
+  append(&lista, 11);
+  append(&lista, 12);  
   
   //isEmpty(&lista);
   findElem(&lista, 7);
   printList(&lista);
-  removeNode(&lista, 9);
+  insert(&lista, 9, 2);
+  // removeNode(&lista, 9);
   printList(&lista);
   // printf("%i\n", lista.tail-> valor);
   return 0;

@@ -39,8 +39,7 @@ bool pop(Stack *stack) {
     bottom = bottom-> next;
   }
   prev-> next = NULL;
-  stack-> top = prev;
-  bottom = NULL; 
+  stack-> top = prev; 
   free(bottom);
   stack-> size--;
   return true;

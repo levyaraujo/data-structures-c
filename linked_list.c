@@ -52,6 +52,7 @@ bool insert(Lista *lista, int valor, int position) {
   antecessor-> prox = novo;
   novo-> prox = atual;
   lista-> tam++;
+  return true;
 }
 
 void printList(Lista *lista) {

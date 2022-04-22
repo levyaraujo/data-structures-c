@@ -29,6 +29,18 @@ bool enqueue(Queue *queue, int value) {
   return true;
 }
 
+bool dequeue(Queue *queue) {
+  Node *head = queue-> head;
+  if (head == NULL) {
+    return false;
+  } else {
+    queue-> head = queue-> head-> next;
+    printf("%i\n", head-> value);
+    free(head);
+    printf("%i\n", head-> value);
+  }
+}
+
 void display(Queue *queue) {
   Node *cursor = queue-> head;
   if (queue-> head == NULL) {

@@ -32,9 +32,9 @@ int append(List *lista, int value) {
 }
 
 bool insert(List *lista, int value, int position) {
+		Node *new = (Node*) malloc(sizeof(Node));
 		Node *current = lista-> head;
 		Node *previous = current-> prev;
-		Node *new = (Node*) malloc(sizeof(Node));
 		new-> data = value;
 
 		if (position > lista-> size) {
@@ -51,7 +51,24 @@ bool insert(List *lista, int value, int position) {
 		new-> next = current;
 		current-> prev = new;
 		printf("Item %i adicionado a lista.\n", value);
+		lista-> size++;
 		return true;
+}
+
+void delete(List *lista, int value) {
+	Node *current = lista-> head;
+	Node *previous = current-> prev;
+
+	while (current != NULL && current-> data != value) {
+		previous = current;
+		current = current-> next;
+		if (current-> data == value) {
+			previous-> next = current-> next;
+			current-> next-> prev = previous;
+		}
+	}
+	lista-> size--;
+	free(current);
 }
 
 bool search(List *lista, int value) {
@@ -60,9 +77,8 @@ bool search(List *lista, int value) {
 	printf("\nO valor %i aparece nas seguintes posicoes: ", value);
 	printf("[ ");
 	while (current) {
-		if (current-> data == value) {
-			printf("%i, ", index);			
-		}
+		if (current-> data == value)
+			printf("%i, ", index);
 		index++;
 		current = current-> next;
 	}
@@ -90,6 +106,7 @@ int main() {
 	append(&lista, 2);
 	append(&lista, 3);
 	search(&lista, 2);
+	// delete(&lista, 2);
 	insert(&lista, 7, 1);
 	displayList(&lista);
 }
